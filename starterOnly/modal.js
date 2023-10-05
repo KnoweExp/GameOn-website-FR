@@ -12,6 +12,7 @@ const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
 
+
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 
@@ -20,4 +21,110 @@ function launchModal() {
   modalbg.style.display = "block";
 }
 
+// Sélectionne l'élément avec la classe "close"
+const closeBtn = document.querySelector(".close");
 
+// Ecouteur au clic sur l'élément "close"
+closeBtn.addEventListener("click", closeModal);
+
+// Fonction pour fermer la modal
+function closeModal() {
+  const modalbg = document.querySelector(".bground");
+  modalbg.style.display = "none";
+}
+
+function validate(event) {
+  
+ 
+  // Si validation réussit, vous pouvez fermer la modal ici
+  const modalbg = document.querySelector(".bground");
+  modalbg.style.display = "none";
+
+  // Supprimez la classe "no-scroll" du corps du document
+  const body = document.querySelector("body");
+  
+
+  return true;
+}
+
+
+const form = document.querySelector("form[name='reserve']");
+
+// Créez des variables pour stocker les valeurs des champs
+let firstNameValue = "";
+let lastNameValue = "";
+let emailValue = "";
+let quantityValue = "";
+let locationValue = "";
+
+// Ajoutez un gestionnaire d'événements pour la soumission du formulaire
+form.addEventListener("submit", function (event) {
+  // Récupérez les valeurs des champs
+  firstNameValue = document.getElementById("first").value;
+  lastNameValue = document.getElementById("last").value;
+  emailValue = document.getElementById("email").value;
+  quantityValue = document.getElementById("quantity").value;
+  locationValue = document.querySelector("input[name='location']:checked");
+
+  // Validation des champs
+  if (!validateForm()) {
+    event.preventDefault(); // Empêche la soumission du formulaire en cas d'erreur
+  }
+});
+
+// Fonction de validation du formulaire
+function validateForm() {
+  // Récupérez les valeurs des champs
+  const firstName = firstNameValue;
+  const lastName = lastNameValue;
+  const email = emailValue;
+  const quantity = parseInt(quantityValue, 10);
+  const location = locationValue;
+  const terms = document.getElementById("checkbox1").checked;
+
+  // Validation du prénom
+  if (firstName.length < 2) {
+    alert("Le prénom doit avoir au moins 2 caractères.");
+    return false;
+  }
+
+  // Validation du nom de famille
+  if (lastName.length < 2) {
+    alert("Le nom de famille doit avoir au moins 2 caractères.");
+    return false;
+  }
+
+  // Validation de l'adresse électronique (utilisez une expression régulière appropriée)
+  const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+  if (!emailPattern.test(email)) {
+    alert("L'adresse électronique n'est pas valide.");
+    return false;
+  }
+
+  // Validation de la quantité
+  if (isNaN(quantity) || quantity < 0) {
+    alert("Veuillez entrer une valeur numérique valide pour la quantité.");
+    return false;
+  }
+
+  // Validation de la sélection d'une localisation
+  if (!location) {
+    alert("Veuillez sélectionner une localisation.");
+    return false;
+  }
+
+  // Validation de l'acceptation des conditions générales
+  if (!terms) {
+    alert("Vous devez accepter les conditions générales.");
+    return false;
+  }
+
+  // Si toutes les validations réussissent, vous pouvez fermer la modal ici
+  const modalbg = document.querySelector(".bground");
+  modalbg.style.display = "none";
+
+  // Réinitialisez la classe "no-scroll" du corps du document
+  const body = document.querySelector("body");
+
+  return true;
+}
