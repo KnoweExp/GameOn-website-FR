@@ -35,6 +35,13 @@ img {
   padding-right: 1rem;
 }
 
+.error-message {
+  font-size: 10px;
+  font-weight: 400;
+  color: #FF4E60;
+  font-style: normal;
+}
+
 .topnav {
   position: relative;
   top: 20px;
