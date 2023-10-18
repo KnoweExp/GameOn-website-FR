@@ -11,8 +11,12 @@
 /* Landing Page */
 
 @media screen and (max-width: 768px) {
-  .topnav.no-scroll {
-    overflow: hidden;
+  .content {
+    height: 870px;
+    max-width: 764px;
+  }
+  .modal-container {
+    position: absolute;
   }
 }
 
@@ -51,8 +55,18 @@ img {
     float: left;
 }
 .main-navbar {
-    float: right;
+    z-index: 2;
+    position: absolute;
+    right: 0px;
+    background: rgb(255, 255, 255);
+    border-radius: 15px;
+    margin-top: -15px;
 }
+
+.fa {
+  color: red;
+}
+
 .topnav a {
   float: left;
   display: block;
@@ -67,19 +81,30 @@ img {
 
 .topnav a:hover {
   background-color: #ff0000;
-  color: #ffffff;
+  color: black;
   border-radius: 15px;
+}
+
+#thankYouMessage {
+  display: block;
+  margin: auto;
 }
 
 .topnav a.active {
   background-color: #ff0000;
-  color: #ffffff;
   border-radius: 15px;
+  color: white;
 }
 
 .topnav .icon {
   display: none;
 }
+
+.hidden {
+  display: none;
+}
+
+
 
 @media screen and (max-width: 768px) {
   .header-logo img {
@@ -89,6 +114,9 @@ img {
   .topnav a.icon {
     float: right;
     display: block;
+  }
+  .topnav a:hover {
+    background-color: transparent;
   }
 }
 
@@ -104,16 +132,21 @@ img {
     display: block;
     text-align: left;
   }
+  .responsive.fa {
+    color:#000
+  }
 }
 
 
 
  @media screen and (max-width: 540px) {
+  .hero-content {
+    padding: 51px 0 0 51px;
+  }
   .topnav a {display: none;}
   .topnav a.icon {
     float: right;
     display: block;
-    margin-top: -15px;
   }
 } 
 
@@ -173,7 +206,7 @@ main {
   font-size: 16px;
 }
 
-.bground {
+.modal-container {
   display: none;
   position: fixed;
   z-index: 1;
@@ -185,6 +218,8 @@ main {
 }
 
 .content {
+  display: flex;
+  flex-direction: column;
   margin: 5% auto;
   width: 100%;
   max-width: 500px;

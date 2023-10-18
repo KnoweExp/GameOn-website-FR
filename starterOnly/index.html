@@ -51,11 +51,11 @@
       </button>
     </div>
 
-    <div class="bground">
+    <div class="modal-container">
       <div class="content">
         <span class="close"></span>
         <div class="modal-body">
-          <form name="reserve" onsubmit="return validate();">
+          <form name="reserve" novalidate onsubmit="return validate(event);">
             <div class="formData">
               <label>Prénom</label><br>
               <input class="text-control" type="text" id="first" name="first"/><br>
@@ -105,6 +105,9 @@
               <label class="checkbox-label" for="location6">
                 <span class="checkbox-icon"></span>
                 Portland</label>
+            </div>
+            <div id="thankYouMessage" class="hidden">
+              <p>Merci pour votre inscription</p>
             </div>
 
             <div class="formData">
