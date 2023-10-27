@@ -47,20 +47,31 @@ img {
 }
 
 .topnav {
-  position: relative;
+  display: flex;
   top: 20px;
   margin: 3.5%;
 }
+
+@media screen and (max-width: 768px) {
+  .topnav {
+    position: relative;
+    
+  }
+
+  .main-navbar {
+    position: relative;
+    right: 0px;
+  }
+}
+
 .header-logo {
     float: left;
 }
 .main-navbar {
     z-index: 2;
-    position: relative;
-    right: 0px;
+    margin-left: auto;
     background: transparent;
     border-radius: 15px;
-    margin-top: -15px;
 }
 
 body.no-scroll {
@@ -83,7 +94,7 @@ body.no-scroll {
   color: #000000;
   text-align: center;
   padding: 12px 12px;
-  margin: 5px;
+  
   text-decoration: none;
   font-size: 20px;
   font-family: Roboto, sans-serif;
@@ -122,6 +133,8 @@ body.no-scroll {
   }
   .topnav a {display: none;}
   .topnav a.icon {
+    position: absolute;
+    right: -33px;
     float: right;
     display: block;
   }
@@ -131,11 +144,17 @@ body.no-scroll {
 }
 
 @media screen and (max-width: 768px) {
-  .topnav.responsive {position: relative;}
+  .topnav.responsive {
+    position: relative;
+  }
+
   .topnav.responsive .icon {
     position: absolute;
-    right: 0;
+    right: -33px;
     top: 0;
+  }
+  .topnav a {
+    padding-right: 40px;
   }
   .topnav.responsive a {
     float: none;
@@ -153,7 +172,9 @@ body.no-scroll {
   .hero-content {
     padding: 51px 0 0 51px;
   }
-  .topnav a {display: none;}
+  .topnav a {
+    display: none;
+  }
   .topnav a.icon {
     float: right;
     display: block;
@@ -167,7 +188,7 @@ main {
   padding-top: 0.5vw;
   padding-left: 2vw;
   padding-right: 2vw;
-  margin: 1px 20px 15px;
+  margin: 20px 30px 15px;
   border-radius: 2rem;
   text-align: justify;
 
@@ -569,7 +590,7 @@ footer {
   .hero-content {
     background: #fff;
     color: #000;
-    padding: 20px;
+    padding: 0;
   }
   .hero-content::after {
     content: unset;

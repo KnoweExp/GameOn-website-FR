@@ -22,6 +22,14 @@ const submitButton = document.querySelector(".btn-submit");
 submitButton.addEventListener("click", validate);
 let formSubmitted = false;
 
+let firstNameValue, lastNameValue, emailValue, quantityValue;
+
+function FormSave() {
+  document.getElementById("first").value = firstNameValue;
+  document.getElementById("last").value = lastNameValue;
+  document.getElementById("email").value = emailValue;
+  document.getElementById("quantity").value = quantityValue;
+}
 
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
@@ -31,6 +39,8 @@ function launchModal() {
   const thankYouMessage = document.getElementById("thankYouMessage");
   if (thankYouMessage) {
     resetForm();
+  } else {
+    FormSave();
   }
   // si thankyoumessage resetform est appelé pour réinitialiser le formulaire
 
@@ -144,19 +154,19 @@ function validate(event) {
   let allValid = true;
 
   const firstInput = document.getElementById("first");
-  const firstNameValue = firstInput.value;
-  const lastInput = document.getElementById("last");
-  const lastNameValue = lastInput.value;
-  const emailInput = document.getElementById("email");
-  const emailValue = emailInput.value;
-  const quantityInput = document.getElementById("quantity")
-  const quantityValue = quantityInput.value;
+  firstNameValue = firstInput.value;
   const errorContainerFirst = document.getElementById("firstNameError");
+  const lastInput = document.getElementById("last");
+  lastNameValue = lastInput.value;
   const errorContainerLast = document.getElementById("lastNameError");
+  const emailInput = document.getElementById("email");
+  emailValue = emailInput.value;
   const errorContainerEmail = document.getElementById("emailError");
+  const quantityInput = document.getElementById("quantity")
+  quantityValue = quantityInput.value;
   const Errorquantity = document.getElementById("quantityError");
   const birthdateInput = document.getElementById("birthdate")
-  const birthdateValue = birthdateInput.value;
+  birthdateValue = birthdateInput.value;
   const birthdateError = document.getElementById("birthdateError");
   const locationError = document.getElementById("locationError");
   const conditionsError = document.getElementById("conditionsError");
@@ -246,11 +256,9 @@ if (!validateTerms()) {
     const thankYouMessage = document.getElementById("thankYouMessage");
     const submitButton = document.querySelector(".btn-submit");
 
-    
     formSubmitted = true;
       
-    
-
+  
     if (thankYouMessage) {
       thankYouMessage.style.display = "block";
 
@@ -279,29 +287,14 @@ if (!validateTerms()) {
 }
 
 function resetForm() {
-  
-  // Réinitialisez les valeurs et l'état du formulaire ici si nécessaire
-  document.querySelector("form[name='reserve']").reset();
-  console.log("Étape 2: Les valeurs du formulaire ont été réinitialisées");
-
   // Effacez les messages d'erreur
-  
-document.querySelectorAll(".error-message").forEach(errorElement => {
-  errorElement.textContent = "";
-  console.log("Étape 3: Les messages d'erreur ont été effacés");
-});
-
-
-  // Remettez les éléments formData à leur état normal
-  const formElements = document.querySelectorAll(".formData");
-  formElements.forEach((element) => {
-    element.classList.remove("hidden");
-    console.log("Étape 4: Les éléments formData ont été remis à leur état normal");
+  document.querySelectorAll(".error-message").forEach(errorElement => {
+    errorElement.textContent = "";
+    console.log("Étape 3: Les messages d'erreur ont été effacés");
   });
 
   document.querySelectorAll(".formData input, .formData select, .formData textarea").forEach(inputElement => {
     inputElement.style.border = ""; 
-    console.log("Étape 5: Les bordures des éléments de formulaire ont été réinitialisées");
   });
 
   // Remettre le message de remerciement à son état caché
@@ -309,7 +302,17 @@ document.querySelectorAll(".error-message").forEach(errorElement => {
   if (thankYouMessage) {
     thankYouMessage.style.display = "none";
   }
-  console.log("Étape 6: Le message de remerciement a été caché");
+  
+  // Réinitialisez les valeurs et l'état du formulaire ici si nécessaire
+  document.querySelector("form[name='reserve']").reset();
+  console.log("Étape 2: Les valeurs du formulaire ont été réinitialisées");
+
+  // Remettez les éléments formData à leur état normal
+  const formElements = document.querySelectorAll(".formData");
+  formElements.forEach((element) => {
+    element.classList.remove("hidden");
+    console.log("Étape 4: Les éléments formData ont été remis à leur état normal");
+  });
 
   // Remettre le texte du bouton de soumission à son état initial
   const submitButton = document.querySelector(".btn-submit");
