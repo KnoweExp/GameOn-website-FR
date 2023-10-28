@@ -1,40 +1,87 @@
 function editNav() {
-  var x = document.getElementById("myTopnav");
+  var SelectMyTopNav = document.getElementById("myTopnav");
   var burgerIcon = document.querySelector(".fa"); // Sélectionnez l'élément du logo du menu burger
   var navbar = document.querySelector(".main-navbar");
 
-  if (x.className === "topnav") {
-    x.className += " responsive";
+  if (SelectMyTopNav.className === "topnav") {
+    SelectMyTopNav.className += " responsive";
     burgerIcon.style.color = "white"; // Changez la couleur de fond du logo avec la classe responsive
     navbar.style.backgroundColor = "white";
   } else {
-    x.className = "topnav";
+    SelectMyTopNav.className = "topnav";
     burgerIcon.style.color = "#fe142f"; // Changez la couleur de fond du logo quand il n'y a pas la classe responsive
     navbar.style.backgroundColor = "";
   }
-}
+} 
+
+
 
 // DOM Elements
 const modalbg = document.querySelector(".modal-container");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
 const submitButton = document.querySelector(".btn-submit");
+
 submitButton.addEventListener("click", validate);
+
 let formSubmitted = false;
 
-let firstNameValue, lastNameValue, emailValue, quantityValue;
+let firstNameValue = '';
+let lastNameValue = '';
+let emailValue = '';
+let quantityValue = '';
+let birthdateValue = '';
+let selectedLocation = '';
+let termsChecked = false;
+let newsletterChecked = false;
 
-function FormSave() {
+// Fonction pour sauvegarder les champs du formulaire
+
+function saveFormValues() {
+  firstNameValue = document.getElementById("first").value;
+  lastNameValue = document.getElementById("last").value;
+  emailValue = document.getElementById("email").value;
+  quantityValue = document.getElementById("quantity").value;
+  birthdateValue = document.getElementById("birthdate").value;
+  selectedLocation = getSelectedLocation();
+  termsChecked = document.getElementById("checkbox1").checked;
+  newsletterChecked = document.getElementById("checkbox2").checked;
+}
+
+// Fonction pour recharger les champs du formulaire
+
+function retrieveFormValues() {
   document.getElementById("first").value = firstNameValue;
   document.getElementById("last").value = lastNameValue;
   document.getElementById("email").value = emailValue;
   document.getElementById("quantity").value = quantityValue;
+  document.getElementById("birthdate").value = birthdateValue;
+  setSelectedLocation(selectedLocation);
+  document.getElementById("checkbox1").checked = termsChecked;
+  document.getElementById("checkbox2").checked = newsletterChecked;
 }
 
-// launch modal event
+function getSelectedLocation() {
+  const locationRadios = document.querySelectorAll("input[type='radio'][name='location']");
+  for (let radio of locationRadios) {
+    if (radio.checked) {
+      return radio.value;
+    }
+  }
+  return null;
+}
+
+function setSelectedLocation(location) {
+  const locationRadio = document.querySelector(`input[type='radio'][name='location'][value='${location}']`);
+  if (locationRadio) {
+    locationRadio.checked = true;
+  }
+}
+
+// event de lancement de la modale
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 
-// launch modal form
+// lancement du formulaire dans la modale
 function launchModal() {
   const thankYouMessage = document.getElementById("thankYouMessage");
   if (thankYouMessage) {
@@ -50,6 +97,9 @@ function launchModal() {
     window.scrollTo(0, 0,);
   }
   modalbg.style.display = "block";
+  if (!formSubmitted) {
+    retrieveFormValues();
+  }
 }
 
 // Sélectionne l'élément avec la classe "close"
@@ -57,6 +107,7 @@ const closeBtn = document.querySelector(".close");
 
 // Ecouteur au clic sur l'élément "close"
 closeBtn.addEventListener("click", closeModal);
+
 
 // Fonction pour fermer la modal
 function closeModal() {
@@ -67,14 +118,17 @@ function closeModal() {
     document.body.classList.remove('no-scroll');
   }
 
-  if (formSubmitted) {
+  if (!formSubmitted) {
+    saveFormValues();
+  } else {
     resetForm();
     formSubmitted = false; // Remettez l'état à false pour les prochaines soumissions
   }
 }
 
+// Fonctions de validation de chaque champs
+
 function validateFirstName(firstName) {
-  
   if (firstName.length < 2) {
     return false;
   }
@@ -82,7 +136,6 @@ function validateFirstName(firstName) {
 }
 
 function validateLastName(lastName) {
-  
   if (lastName.length < 2) {
     return false;
   }
@@ -92,7 +145,6 @@ function validateLastName(lastName) {
 function validateEmail(email) {
   const emailPattern = /^[a-z0-9._-]+@[a-z0-9._-]+\.[a-z]+$/i;
   
-
   if (!emailPattern.test(email)) {
     return false;
   }
@@ -135,21 +187,14 @@ function validateTerms() {
   const conditionsCheckbox = document.getElementById("checkbox1");
   
   return conditionsCheckbox.checked;
-    // Si elle n'est pas cochée, affichez un message d'erreur
-    
-    
+    // Si elle n'est pas cochée, affichez un message d'erreur 
   }
-
-
-
-
 
 const form = document.querySelector("form[name='reserve']");
 
 
 function validate(event) {
   event.preventDefault();  // Empêche la soumission du formulaire par défaut
-  const submitButton = document.querySelector(".btn-submit");
 
   let allValid = true;
 
@@ -171,10 +216,7 @@ function validate(event) {
   const locationError = document.getElementById("locationError");
   const conditionsError = document.getElementById("conditionsError");
 
-  
-
-
-
+ 
   // Validation pour firstName
   if (!validateFirstName(firstNameValue)) {
     allValid = false;
@@ -223,12 +265,9 @@ function validate(event) {
     allValid = false;
       birthdateError.innerText = "date non valide";
       birthdateInput.style.border = "2px solid #FF4E60";
-    
 } else {
-  
     birthdateError.innerText = "";
     birthdateInput.style.border = "";
-  
 }
 
 if (!validateLocation()) {
@@ -236,20 +275,14 @@ if (!validateLocation()) {
   locationError.innerText = "localisation non valide";
 } else {
   locationError.innerText = "";
-  
 }
 
 if (!validateTerms()) {
-  
   allValid = false;
   conditionsError.textContent = "Vous devez accepter les conditions d'utilisation pour continuer.";
 } else {
   conditionsError.textContent = "";
 }
-
-
-
-  
 
   if (allValid) {
     const hideQuestion = document.querySelector(".text-label")
@@ -258,7 +291,6 @@ if (!validateTerms()) {
 
     formSubmitted = true;
       
-  
     if (thankYouMessage) {
       thankYouMessage.style.display = "block";
 
@@ -290,7 +322,6 @@ function resetForm() {
   // Effacez les messages d'erreur
   document.querySelectorAll(".error-message").forEach(errorElement => {
     errorElement.textContent = "";
-    console.log("Étape 3: Les messages d'erreur ont été effacés");
   });
 
   document.querySelectorAll(".formData input, .formData select, .formData textarea").forEach(inputElement => {
@@ -305,13 +336,11 @@ function resetForm() {
   
   // Réinitialisez les valeurs et l'état du formulaire ici si nécessaire
   document.querySelector("form[name='reserve']").reset();
-  console.log("Étape 2: Les valeurs du formulaire ont été réinitialisées");
 
   // Remettez les éléments formData à leur état normal
   const formElements = document.querySelectorAll(".formData");
   formElements.forEach((element) => {
     element.classList.remove("hidden");
-    console.log("Étape 4: Les éléments formData ont été remis à leur état normal");
   });
 
   // Remettre le texte du bouton de soumission à son état initial
@@ -319,16 +348,12 @@ function resetForm() {
   submitButton.value = "C'est parti";
   submitButton.removeEventListener("click", closeAndReset);
   submitButton.addEventListener("click", validate);
-  console.log("Étape 7: Le bouton de soumission a été réinitialisé");
 
   // Remettez la question à son état visible
   const hideQuestion = document.querySelector(".text-label");
   if (hideQuestion) {
     hideQuestion.style.display = "block";
   }
-  console.log("Étape 8: La question a été rendue visible");
-
-  console.log("Étape 9: Réinitialisation du formulaire terminée");
 }
 
 function closeAndReset() {

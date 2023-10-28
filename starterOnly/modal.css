@@ -100,12 +100,6 @@ body.no-scroll {
   font-family: Roboto, sans-serif;
 }
 
-.topnav a:hover {
-  background-color: #ff0000;
-  color: black;
-  border-radius: 15px;
-}
-
 #thankYouMessage {
   display: block;
   margin: auto;
@@ -138,8 +132,9 @@ body.no-scroll {
     float: right;
     display: block;
   }
-  .topnav a:hover {
-    background-color: transparent;
+  .topnav a.icon:hover {
+    color: inherit;
+    text-decoration: none;
   }
 }
 
@@ -180,6 +175,7 @@ body.no-scroll {
     display: block;
   }
 } 
+
 
 main {
   font-size: 130%;
