@@ -86,8 +86,6 @@ function launchModal() {
   const thankYouMessage = document.getElementById("thankYouMessage");
   if (thankYouMessage) {
     resetForm();
-  } else {
-    FormSave();
   }
   // si thankyoumessage resetform est appelé pour réinitialiser le formulaire
 
