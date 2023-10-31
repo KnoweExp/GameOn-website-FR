@@ -128,7 +128,7 @@ function closeModal() {
 
 // Fonctions de validation de chaque champs
 
-function validateFirstName(firstName) {
+/* function validateFirstName(firstName) {
   if (firstName.length < 2) {
     return false;
   }
@@ -140,18 +140,18 @@ function validateLastName(lastName) {
     return false;
   }
   return true;
-} 
+}  */
   
-function validateEmail(email) {
-  const emailPattern = /^[a-z0-9._-]+@[a-z0-9._-]+\.[a-z]+$/i;
+/* function validateEmail(email) {
+  
   
   if (!emailPattern.test(email)) {
     return false;
   }
   return true;
-}
+} */
 
-function validateQuantity(quantity) {
+/* function validateQuantity(quantity) {
   const quantityInput = document.getElementById("quantity");
   const quantityValue = parseFloat(quantityInput.value);
 
@@ -159,14 +159,14 @@ function validateQuantity(quantity) {
     return false;
   }
   return true;
-}
+} */
 
-function validateBirthdate(birthdate) {
-  const regex = /^\d{4}-\d{2}-\d{2}$/;
+/* function validateBirthdate(birthdate) {
+  
     return regex.test(birthdate);
-}
+} */
 
-function validateLocation() {
+/* function validateLocation() {
   const locationRadios = document.querySelectorAll("input[type='radio'][name='location']");
 
   let isLocationSelected = false;
@@ -188,7 +188,7 @@ function validateTerms() {
   
   return conditionsCheckbox.checked;
     // Si elle n'est pas cochée, affichez un message d'erreur 
-  }
+  } */
 
 const form = document.querySelector("form[name='reserve']");
 
@@ -207,18 +207,23 @@ function validate(event) {
   const emailInput = document.getElementById("email");
   emailValue = emailInput.value;
   const errorContainerEmail = document.getElementById("emailError");
+  const emailPattern = /^[a-z0-9._-]+@[a-z0-9._-]+\.[a-z]+$/i;
   const quantityInput = document.getElementById("quantity")
-  quantityValue = quantityInput.value;
+  quantityValue = parseFloat(quantityInput.value);
   const Errorquantity = document.getElementById("quantityError");
   const birthdateInput = document.getElementById("birthdate")
   birthdateValue = birthdateInput.value;
   const birthdateError = document.getElementById("birthdateError");
+  const regex = /^\d{4}-\d{2}-\d{2}$/;
+  const locationRadios = document.querySelectorAll("input[type='radio'][name='location']");
+  const isLocationSelected = Array.from(locationRadios).some(radio => radio.checked);
   const locationError = document.getElementById("locationError");
+  const conditionsCheckbox = document.getElementById("checkbox1");
   const conditionsError = document.getElementById("conditionsError");
 
  
   // Validation pour firstName
-  if (!validateFirstName(firstNameValue)) {
+  if (firstNameValue.trim().length < 2) {
     allValid = false;
     // Afficher le message d'erreur pour firstName
     errorContainerFirst.textContent = "Le prénom doit avoir au moins 2 caractères";
@@ -230,7 +235,7 @@ function validate(event) {
   }
 
   // Validation pour lastName
-  if (!validateLastName(lastNameValue)) {
+  if (lastNameValue.trim().length < 2) {
     allValid = false;
     // Afficher le message d'erreur pour lastName
     errorContainerLast.innerText = "Le Nom doit avoir au moins 2 caractères";
@@ -241,7 +246,7 @@ function validate(event) {
   }
 
   // Validation pour email
-  if (!validateEmail(emailValue)) {
+  if (emailPattern.test(email)) {
     allValid = false;
     // Afficher le message d'erreur pour email
     errorContainerEmail.innerText = "Email invalide!";
@@ -251,7 +256,7 @@ function validate(event) {
     emailInput.style.border =""
   }
 
-  if (!validateQuantity(quantityValue)) {
+  if (isNaN(quantityValue) || quantityValue < 0) {
     allValid = false;
 
     Errorquantity.innerText = "Quantité non valide";
@@ -261,28 +266,28 @@ function validate(event) {
     quantityInput.style.border = "";
   }
 
-  if (!validateBirthdate(birthdateValue)) {
+  if (!regex.test(birthdateValue)) {
     allValid = false;
       birthdateError.innerText = "date non valide";
       birthdateInput.style.border = "2px solid #FF4E60";
-} else {
-    birthdateError.innerText = "";
-    birthdateInput.style.border = "";
-}
+  } else {
+      birthdateError.innerText = "";
+      birthdateInput.style.border = "";
+  }
 
-if (!validateLocation()) {
-  allValid = false;
-  locationError.innerText = "localisation non valide";
-} else {
-  locationError.innerText = "";
-}
+  if (!isLocationSelected) {
+    allValid = false;
+    locationError.innerText = "Vous devez choisir une localisation";
+  } else {
+    locationError.innerText = "";
+  }
 
-if (!validateTerms()) {
-  allValid = false;
-  conditionsError.textContent = "Vous devez accepter les conditions d'utilisation pour continuer.";
-} else {
-  conditionsError.textContent = "";
-}
+  if (!conditionsCheckbox.checked) {
+    allValid = false;
+    conditionsError.textContent = "Vous devez accepter les conditions d'utilisation pour continuer.";
+  } else {
+    conditionsError.textContent = "";
+  }
 
   if (allValid) {
     const hideQuestion = document.querySelector(".text-label")
