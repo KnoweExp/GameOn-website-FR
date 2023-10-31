@@ -15,9 +15,7 @@
     height: 870px;
     max-width: 764px;
   }
-  .modal-container {
-    position: absolute;
-  }
+  
 }
 
 body {
@@ -59,6 +57,7 @@ img {
   }
 
   .main-navbar {
+    z-index: 3;
     position: relative;
     right: 0px;
   }
@@ -68,7 +67,7 @@ img {
     float: left;
 }
 .main-navbar {
-    z-index: 2;
+    z-index: 4;
     margin-left: auto;
     background: transparent;
     border-radius: 15px;
@@ -88,6 +87,15 @@ body.no-scroll {
   color: red;
 }
 
+.reset-border {
+  border: 1px solid #ced4da !important;
+}
+
+.hidden-error {
+  display: none;
+}
+
+
 .topnav a {
   float: left;
   display: block;
@@ -101,7 +109,6 @@ body.no-scroll {
 }
 
 #thankYouMessage {
-  display: block;
   text-align: center;
   margin: auto;
   font-family: 'DM sans', sans-serif;
@@ -109,6 +116,15 @@ body.no-scroll {
   font-weight: 400;
   color: #FFF;
 }
+
+.hidden {
+  display: none;
+}
+
+/* #thankYouMessage.hidden {
+  display: none;
+  border: #f00 solid 2px;
+} */
 
 .topnav a.active {
   background-color: #ff0000;
@@ -119,11 +135,6 @@ body.no-scroll {
 .topnav .icon {
   display: none;
 }
-
-.hidden {
-  display: none;
-}
-
 
 
 @media screen and (max-width: 768px) {
@@ -240,12 +251,12 @@ main {
 
 .modal-container {
   display: none;
-  position: absolute;
-  z-index: 1;
+  position: fixed;
+  z-index: 3;
   left: 0;
   top: 60px;
   height: 100%;
-  width: 100%;
+  width: 105vw;
   overflow: auto;
 }
 
@@ -256,11 +267,12 @@ main {
   width: 100%;
   min-height: 720px;
   max-width: 500px;
+  max-height: 90vh;
   animation-name: modalopen;
   animation-duration: var(--modal-duration);
   background: #232323;
   border-radius: 10px;
-  overflow: hidden;
+  overflow-y: auto;
   position: relative;
   color: #fff;
   padding-top: 10px;
@@ -272,7 +284,6 @@ main {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  /* height: 80vh; */
   align-content: center;
 }
 
@@ -289,6 +300,9 @@ main {
   .content {
     max-width: none;
     height: 960px;
+  }
+  .modal-container {
+    position: absolute;
   }
 }
 

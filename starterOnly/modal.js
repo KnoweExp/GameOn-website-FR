@@ -51,6 +51,7 @@ function saveFormValues() {
 // Fonction pour recharger les champs du formulaire
 
 function retrieveFormValues() {
+  console.log("retrieveFormValues is called");
   document.getElementById("first").value = firstNameValue;
   document.getElementById("last").value = lastNameValue;
   document.getElementById("email").value = emailValue;
@@ -83,11 +84,6 @@ modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 
 // lancement du formulaire dans la modale
 function launchModal() {
-  const thankYouMessage = document.getElementById("thankYouMessage");
-  if (thankYouMessage) {
-    resetForm();
-  }
-  // si thankyoumessage resetform est appelé pour réinitialiser le formulaire
 
   // si la largeur de la fenetre fait moins de 768 px ca ajoute la classe no-scroll et remet le deroulement de le page vers le haut
   if (window.innerWidth <= 768) {
@@ -95,11 +91,7 @@ function launchModal() {
     window.scrollTo(0, 0,);
   }
   modalbg.style.display = "block";
-  if (formSubmitted) {
-    validate();
-  }  else {
-    retrieveFormValues();
-  }
+  
 }
 
 // Sélectionne l'élément avec la classe "close"
@@ -119,76 +111,11 @@ function closeModal() {
   }
 
   if (!formSubmitted) {
-    saveFormValues();
   } else {
     resetForm();
     formSubmitted = false; // Remettez l'état à false pour les prochaines soumissions
   }
 }
-
-// Fonctions de validation de chaque champs
-
-/* function validateFirstName(firstName) {
-  if (firstName.length < 2) {
-    return false;
-  }
-  return true;
-}
-
-function validateLastName(lastName) {
-  if (lastName.length < 2) {
-    return false;
-  }
-  return true;
-}  */
-  
-/* function validateEmail(email) {
-  
-  
-  if (!emailPattern.test(email)) {
-    return false;
-  }
-  return true;
-} */
-
-/* function validateQuantity(quantity) {
-  const quantityInput = document.getElementById("quantity");
-  const quantityValue = parseFloat(quantityInput.value);
-
-  if (isNaN(quantityValue) || quantityValue < 0) {
-    return false;
-  }
-  return true;
-} */
-
-/* function validateBirthdate(birthdate) {
-  
-    return regex.test(birthdate);
-} */
-
-/* function validateLocation() {
-  const locationRadios = document.querySelectorAll("input[type='radio'][name='location']");
-
-  let isLocationSelected = false;
-  for (let radio of locationRadios) {
-    if (radio.checked) {
-      isLocationSelected = true;
-      break;
-    }
-  }
-
-  if (!isLocationSelected){
-    return false;
-  } 
-  return true;
-}
-
-function validateTerms() {
-  const conditionsCheckbox = document.getElementById("checkbox1");
-  
-  return conditionsCheckbox.checked;
-    // Si elle n'est pas cochée, affichez un message d'erreur 
-  } */
 
 const form = document.querySelector("form[name='reserve']");
 
@@ -228,10 +155,12 @@ function validate(event) {
     // Afficher le message d'erreur pour firstName
     errorContainerFirst.textContent = "Le prénom doit avoir au moins 2 caractères";
     firstInput.style.border = "2px solid #FF4E60"
+
     
   } else {
     errorContainerFirst.innerText = "";
     firstInput.style.border = "";
+    
   }
 
   // Validation pour lastName
@@ -246,7 +175,7 @@ function validate(event) {
   }
 
   // Validation pour email
-  if (emailPattern.test(email)) {
+  if (!emailPattern.test(emailValue)) {
     allValid = false;
     // Afficher le message d'erreur pour email
     errorContainerEmail.innerText = "Email invalide!";
@@ -255,7 +184,7 @@ function validate(event) {
     errorContainerEmail.innerText = "";
     emailInput.style.border =""
   }
-
+  
   if (isNaN(quantityValue) || quantityValue < 0) {
     allValid = false;
 
@@ -297,7 +226,7 @@ function validate(event) {
     formSubmitted = true;
       
     if (thankYouMessage) {
-      thankYouMessage.style.display = "block";
+      thankYouMessage.classList.remove("hidden");
 
     } else {
       console.error("Élément 'thankYouMessage' non trouvé dans le DOM.");
@@ -324,33 +253,59 @@ function validate(event) {
 }
 
 function resetForm() {
+  
+
+  console.log("resetForm is called");
   if (formSubmitted) {
+    setTimeout(() => {
+      // ... votre code de réinitialisation ici ...
+  
+      const errorMessageDivs = document.querySelectorAll('.error-message');
+      errorMessageDivs.forEach(div => {
+        div.textContent = "";
+      });
+  
+      const inputFields = document.querySelectorAll('input, textarea');
+      inputFields.forEach(field => {
+        field.style.border = "";
+      });
+    }, 0);
     // Réinitialisez les valeurs et l'état du formulaire ici si nécessaire
     document.querySelector("form[name='reserve']").reset();
-    // Effacez les messages d'erreur
-    document.querySelectorAll(".error-message").forEach(errorElement => {
-      errorElement.textContent = "";
+    
+  
+    // Remettre le message de remerciement à son état caché
+    const thankYouMessage = document.getElementById("thankYouMessage");
+    if (thankYouMessage) {
+      thankYouMessage.classList.add("hidden");
+    }
+    
+    // Remettre les éléments formData à leur état normal
+    const formElements = document.querySelectorAll(".formData");
+    formElements.forEach((element) => {
+      element.classList.remove("hidden");
     });
   
-    document.querySelectorAll(".formData input, .formData select, .formData textarea").forEach(inputElement => {
-      inputElement.style.border = ""; 
-    });
+    // Remettre le texte du bouton de soumission à son état initial
+    const submitButton = document.querySelector(".btn-submit");
+    submitButton.value = "C'est parti";
+    submitButton.removeEventListener("click", closeAndReset);
+    submitButton.addEventListener("click", validate);
+  
+    // Remettez la question à son état visible
+    const hideQuestion = document.querySelector(".text-label");
+    if (hideQuestion) {
+      hideQuestion.style.display = "block";
+    }
+    
+    // Remettre le formulaire à son état non soumis
     formSubmitted = false;
   }
-
-  // Remettre le message de remerciement à son état caché
-  const thankYouMessage = document.getElementById("thankYouMessage");
-  if (thankYouMessage) {
-    thankYouMessage.style.display = "none";
-  }
-  
-
   // Remettez les éléments formData à leur état normal
   const formElements = document.querySelectorAll(".formData");
   formElements.forEach((element) => {
     element.classList.remove("hidden");
   });
-
   // Remettre le texte du bouton de soumission à son état initial
   const submitButton = document.querySelector(".btn-submit");
   submitButton.value = "C'est parti";
@@ -362,13 +317,15 @@ function resetForm() {
   if (hideQuestion) {
     hideQuestion.style.display = "block";
   }
+  
+
 }
 
 function closeAndReset() {
+  console.log("closeAndReset");
   closeModal();
-  resetForm();
-  const submitButton = document.querySelector(".btn-submit");
-  submitButton.value = "C'est parti";
-  submitButton.removeEventListener("click", closeAndReset);
-  submitButton.addEventListener("click", validate);
+  if (!formSubmitted) {
+    resetForm();
+    formSubmitted = false;
+  }
 }
