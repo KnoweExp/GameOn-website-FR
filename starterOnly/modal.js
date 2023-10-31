@@ -95,7 +95,9 @@ function launchModal() {
     window.scrollTo(0, 0,);
   }
   modalbg.style.display = "block";
-  if (!formSubmitted) {
+  if (formSubmitted) {
+    validate();
+  }  else {
     retrieveFormValues();
   }
 }
@@ -317,14 +319,19 @@ if (!validateTerms()) {
 }
 
 function resetForm() {
-  // Effacez les messages d'erreur
-  document.querySelectorAll(".error-message").forEach(errorElement => {
-    errorElement.textContent = "";
-  });
-
-  document.querySelectorAll(".formData input, .formData select, .formData textarea").forEach(inputElement => {
-    inputElement.style.border = ""; 
-  });
+  if (formSubmitted) {
+    // Réinitialisez les valeurs et l'état du formulaire ici si nécessaire
+    document.querySelector("form[name='reserve']").reset();
+    // Effacez les messages d'erreur
+    document.querySelectorAll(".error-message").forEach(errorElement => {
+      errorElement.textContent = "";
+    });
+  
+    document.querySelectorAll(".formData input, .formData select, .formData textarea").forEach(inputElement => {
+      inputElement.style.border = ""; 
+    });
+    formSubmitted = false;
+  }
 
   // Remettre le message de remerciement à son état caché
   const thankYouMessage = document.getElementById("thankYouMessage");
@@ -332,8 +339,6 @@ function resetForm() {
     thankYouMessage.style.display = "none";
   }
   
-  // Réinitialisez les valeurs et l'état du formulaire ici si nécessaire
-  document.querySelector("form[name='reserve']").reset();
 
   // Remettez les éléments formData à leur état normal
   const formElements = document.querySelectorAll(".formData");

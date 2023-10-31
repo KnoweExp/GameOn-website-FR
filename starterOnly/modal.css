@@ -240,7 +240,7 @@ main {
 
 .modal-container {
   display: none;
-  position: fixed;
+  position: absolute;
   z-index: 1;
   left: 0;
   top: 60px;
@@ -272,7 +272,7 @@ main {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  height: 80vh;
+  /* height: 80vh; */
   align-content: center;
 }
 
