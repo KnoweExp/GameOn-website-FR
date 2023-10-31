@@ -113,7 +113,7 @@ function closeModal() {
   if (!formSubmitted) {
   } else {
     resetForm();
-    formSubmitted = false; // Remettez l'état à false pour les prochaines soumissions
+    formSubmitted = false; // Remettre l'état à false pour les prochaines soumissions
   }
 }
 
@@ -254,11 +254,9 @@ function validate(event) {
 
 function resetForm() {
   
-
-  console.log("resetForm is called");
   if (formSubmitted) {
     setTimeout(() => {
-      // ... votre code de réinitialisation ici ...
+      
   
       const errorMessageDivs = document.querySelectorAll('.error-message');
       errorMessageDivs.forEach(div => {
@@ -270,7 +268,7 @@ function resetForm() {
         field.style.border = "";
       });
     }, 0);
-    // Réinitialisez les valeurs et l'état du formulaire ici si nécessaire
+    // Réinitialise l'état du formulaire 
     document.querySelector("form[name='reserve']").reset();
     
   
@@ -292,7 +290,7 @@ function resetForm() {
     submitButton.removeEventListener("click", closeAndReset);
     submitButton.addEventListener("click", validate);
   
-    // Remettez la question à son état visible
+    // Remettre la question à son état visible
     const hideQuestion = document.querySelector(".text-label");
     if (hideQuestion) {
       hideQuestion.style.display = "block";
@@ -301,7 +299,7 @@ function resetForm() {
     // Remettre le formulaire à son état non soumis
     formSubmitted = false;
   }
-  // Remettez les éléments formData à leur état normal
+  // Remettre les éléments formData à leur état normal
   const formElements = document.querySelectorAll(".formData");
   formElements.forEach((element) => {
     element.classList.remove("hidden");
@@ -312,7 +310,7 @@ function resetForm() {
   submitButton.removeEventListener("click", closeAndReset);
   submitButton.addEventListener("click", validate);
 
-  // Remettez la question à son état visible
+  // Remettre la question à son état visible
   const hideQuestion = document.querySelector(".text-label");
   if (hideQuestion) {
     hideQuestion.style.display = "block";
@@ -322,7 +320,6 @@ function resetForm() {
 }
 
 function closeAndReset() {
-  console.log("closeAndReset");
   closeModal();
   if (!formSubmitted) {
     resetForm();
